@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+<title>AlgoTrade Studio – Mentor HE (Live GPT)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/prismjs/themes/prism-tomorrow.css">
+<script src="https://unpkg.com/prismjs/prism.js"></script>
+<script src="https://unpkg.com/prismjs/components/prism-csharp.min.js"></script>
+<style>
+  :root{
+    --violet:#8B5CF6; --violetDark:#6D28D9; --violetMid:#7C3AED; --violetSoft:#C4B5FD;
+    --bg0:#0b0720; --bg1:#1b103a; --text:#F8FAFC; --muted:#C7C9D1;
+    --card: rgba(255,255,255,0.08); --card2: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.16);
+    --shadow: 0 10px 40px rgba(0,0,0,0.45), 0 2px 10px rgba(0,0,0,0.25);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{ margin:0; font-family:"Rubik",system-ui,-apple-system,"Segoe UI",Arial,Helvetica,sans-serif;
+    color:var(--text); background: var(--bg0); overflow-x:hidden; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    word-break:break-word; overflow-wrap:anywhere; hyphens:auto; }
+  .bg-hero{ position:fixed; inset:0; z-index:-3;
+    background: radial-gradient(1200px 900px at 85% 10%, rgba(139,92,246,0.22), transparent 60%),
+                radial-gradient(900px 700px at 20% 80%, rgba(109,40,217,0.32), transparent 60%),
+                radial-gradient(700px 500px at 60% 60%, rgba(196,181,253,0.18), transparent 55%),
+                linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 60%, var(--bg0) 100%); }
+  .container{ max-width:1100px; margin:0 auto; padding:24px; }
+  @media (max-width:480px){ .container{ padding:16px; } }
+  header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+  .brand{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .logo{ width:44px; height:44px; border-radius:12px; flex:0 0 auto;
+    background: radial-gradient(120% 120% at 20% 20%, #A78BFA, #7C3AED 55%, #6D28D9 100%);
+    display:grid; place-items:center; color:#fff; font-weight:800;
+    box-shadow: 0 10px 30px rgba(124,58,237,0.55), inset 0 0 14px rgba(255,255,255,0.2); }
+  .title h1{ margin:0; font-size:clamp(18px,4.4vw,28px); text-shadow:0 2px 18px rgba(139,92,246,0.45); }
+  .title small{ color:var(--muted); font-size:clamp(12px,3.2vw,14px); display:block; }
+  .badge{ background: linear-gradient(135deg, rgba(124,58,237,0.35), rgba(167,139,250,0.28));
+    border:1px solid rgba(196,181,253,0.5); color:#EDE9FE; padding:6px 10px; border-radius:999px; font-size:12px; backdrop-filter: blur(6px); white-space:nowrap; }
+  .btn{ background: linear-gradient(135deg, var(--violet), var(--violetDark)); color:#fff; padding:10px 14px;
+        border:none; border-radius:999px; cursor:pointer; font-weight:700;
+        box-shadow: 0 10px 28px rgba(124,58,237,0.45), 0 2px 8px rgba(0,0,0,0.32);
+        transition: transform .18s ease, box-shadow .18s ease; white-space:nowrap; }
+  .btn:hover{ transform: translateY(-2px); box-shadow: 0 14px 36px rgba(124,58,237,0.55); }
+  .btn.ghost{ background: transparent; border:1px solid rgba(196,181,253,0.45); color:var(--text); }
+  .intro, .card{ background: var(--card); border:1px solid var(--border); border-radius: var(--radius);
+    padding:16px; box-shadow: var(--shadow); backdrop-filter: blur(10px); }
+  .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:14px; }
+  @media (max-width:900px){ .grid{ grid-template-columns:1fr; } }
+  label{ font-weight:700; display:block; margin-bottom:8px; font-size:clamp(13px,3.6vw,15px); }
+  textarea, select, input[type="number"], input[type="text"]{
+    width:100%; outline:none; border-radius:12px; border:1px solid rgba(255,255,255,0.18);
+    background: rgba(20,20,40,0.35); color:#EDE9FE; font-size:clamp(13px,3.6vw,15px);
+    padding:10px 12px; transition: border-color .18s ease, box-shadow .18s ease; }
+  textarea{ min-height:120px; resize:vertical; }
+  textarea:focus, select:focus, input:focus{ border-color: rgba(139,92,246,0.8); box-shadow: 0 0 0 4px rgba(139,92,246,0.18); }
+  .row3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; }
+  @media (max-width:650px){ .row3{ grid-template-columns:1fr; } }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 6px; }
+  .chip{ padding:8px 12px; border-radius:999px; cursor:pointer; font-weight:700; font-size:13px; color:#fff;
+         background: linear-gradient(135deg, rgba(124,58,237,0.8), rgba(139,92,246,0.8));
+         border:1px solid rgba(196,181,253,0.45); }
+  .tabs{ display:flex; gap:8px; border-bottom:1px solid rgba(255,255,255,0.12); margin-bottom:10px; overflow-x:auto; }
+  .tab{ padding:8px 10px; cursor:pointer; font-weight:700; color:var(--muted); border-radius:12px 12px 0 0; flex:0 0 auto; }
+  .tab.active{ color:#fff; background: linear-gradient(180deg, rgba(124,58,237,0.22), rgba(124,58,237,0.08));
+               border:1px solid rgba(139,92,246,0.35); border-bottom:none; box-shadow: inset 0 -1px 0 rgba(0,0,0,0.25); }
+  .panel{ display:none; } .panel.active{ display:block; }
+  .toolbar{ display:flex; gap:8px; align-items:center; justify-content:space-between; margin-bottom:8px; flex-wrap:wrap; }
+  .muted{ color:var(--muted); font-size:clamp(12px,3.2vw,14px); }
+  pre.code{ direction:ltr; text-align:left; background: rgba(10,10,30,0.55); border:1px solid rgba(167,139,250,0.35);
+            border-radius:12px; padding:12px; white-space:pre-wrap; word-break:break-word; overflow:auto; max-height:420px; }
+  .mentor-btn{ position:fixed; bottom:18px; left:18px; z-index:6; width:62px; height:62px; border-radius:14px; border:none; cursor:pointer;
+    background: radial-gradient(120% 120% at 30% 30%, #A78BFA, #7C3AED 60%, #6D28D9 100%);
+    box-shadow: 0 12px 40px rgba(124,58,237,0.55); color:#fff; font-weight:800; line-height:1.05; text-align:center;
+    padding:6px 4px; font-size:clamp(12px,3.4vw,14px); }
+  .mentor{ position:fixed; bottom:90px; left:18px; z-index:6; width:min(92vw, 360px); background: rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.16); border-radius:16px; padding:10px; display:none; box-shadow: 0 10px 40px rgba(0,0,0,0.45); backdrop-filter: blur(8px); }
+  .mentor.show{ display:block; }
+  .m-header{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; }
+  .m-title{ font-weight:800; }
+  .m-box{ background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16); border-radius:12px; padding:8px; height:240px; overflow:auto; }
+  .msg{ margin:8px 0; padding:8px 10px; border-radius:12px; max-width:90%; }
+  .msg.u{ background: rgba(139,92,246,0.25); margin-right:auto; }
+  .msg.a{ background: rgba(255,255,255,0.10); margin-left:auto; }
+  .m-input{ display:flex; gap:6px; margin-top:8px; }
+  .m-input input{ flex:1; padding:10px; border-radius:999px; border:1px solid rgba(255,255,255,0.18); background:rgba(20,20,40,0.35); color:#fff; }
+  .m-input button{ padding:10px 14px; border:none; border-radius:999px; background: linear-gradient(135deg, var(--violet), var(--violetDark)); color:#fff; font-weight:700; }
+</style>
+</head>
+<body>
+<div class="bg-hero"></div>
+<div class="container">
+  <header>
+    <div class="brand">
+      <div class="logo">AS</div>
+      <div class="title">
+        <h1>AlgoTrade Studio</h1>
+        <small>מרעיון → לטקסט → לאלגו־בוט — אלגוטראייד תמיד בקדמה</small>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="badge">Ultimate Pro+</span>
+      <button class="btn ghost" id="docs">Docs</button>
+    </div>
+  </header>
+  <section class="intro">
+    <h2>הקדמה קצרה — איך להפוך רעיון לקוד ולאלגו־בוט</h2>
+    <div class="muted">1) ניסוח רעיון → 2) בחירת פלטפורמה ופרופיל נכס → 3) “צור קוד” + יצוא Strategy Brief.</div>
+  </section>
+  <div class="grid" style="margin-top:12px;">
+    <div class="card">
+      <label for="idea">תאר את האסטרטגיה שלך</label>
+      <textarea id="idea" placeholder="דוגמה: לונג מעל EMA21 ב-3דק, TP 110, SL 55, Trail ATR(14)*1.5, עד 2 עסקאות ביום."></textarea>
+      <div class="row3" style="margin-top:6px;">
+        <div><label>Asset Profile</label><select id="profile"><option value="indices">אינדקסים (NQ/ES)</option><option value="crypto">קריפטו (BTC/ETH)</option><option value="equities">מניות (NYSE/NASDAQ)</option></select></div>
+        <div><label>פלטפורמה</label><select id="platform"><option>NinjaTrader 8 (C#)</option><option>MultiCharts .NET (C#)</option><option>TradingView PineScript v5</option></select></div>
+        <div><label>טיימפריים</label><select id="interval"><option>1דק</option><option selected>3דק</option><option>5דק</option><option>15דק</option><option>שעה</option><option>יומי</option></select></div>
+      </div>
+      <div class="chips"><button class="chip" data-tpl="ema">EMA Scalping</button><button class="chip" data-tpl="bb">Mean Reversion (BB)</button><button class="chip" data-tpl="orb">Opening Range</button><button class="chip" data-tpl="gap">Gap Fade</button><button class="chip" data-tpl="div">RSI Divergence</button><button class="chip" data-tpl="zscore">Range Z-Score</button></div>
+      <div class="row3">
+        <div><label>סימבול</label><input type="text" id="symbol" placeholder="NQ / ES / BTCUSDT"/></div>
+        <div><label>כיוון</label><select id="direction"><option>לונג בלבד</option><option>שורט בלבד</option><option>לונג ושורט</option></select></div>
+        <div><label>TP/SL (טיקים)</label><div style="display:flex; gap:6px;"><input type="number" id="tp" value="110"><input type="number" id="sl" value="55"></div></div>
+      </div>
+      <div class="row3">
+        <div><label>ATR Mult</label><input type="number" id="atrm" value="1.5" step="0.1"></div>
+        <div><label>מקס׳ עס/יום</label><input type="number" id="maxtr" value="2" min="1" max="10"></div>
+        <div><label>חלון שעות</label><div style="display:flex; gap:6px;"><input type="text" id="start" value="16:30"><input type="text" id="end" value="18:00"></div></div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:8px;">
+        <button class="btn" id="buildPrompt">בנה תיאור אסטרטגיה</button>
+        <button class="btn ghost" id="optPrompt">Optimize Prompt</button>
+        <label class="muted" style="display:flex; align-items:center; gap:6px;"><input type="checkbox" id="aic" checked/> בדיקות AI</label>
+        <button class="btn" id="gen">צור קוד עכשיו</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="tabs"><div class="tab active" data-tab="code">פלט קוד</div><div class="tab" data-tab="sum">סיכום</div><div class="tab" data-tab="tips">טיפים</div><div class="tab" data-tab="brief">Strategy Brief</div></div>
+      <div class="panel active" id="panel-code"><div class="toolbar"><span class="muted">תוצאה</span><div style="display:flex; gap:8px;"><button class="btn" id="copyBtn">העתקה</button><button class="btn ghost" id="dlBtn">הורד קובץ</button></div></div><pre class="code language-cs"><code id="out" class="language-csharp">// כאן יופיע הקוד שנוצר</code></pre></div>
+      <div class="panel" id="panel-sum"><ul id="sum" class="muted" style="line-height:1.8;"></ul></div>
+      <div class="panel" id="panel-tips"><ul id="tips" class="muted" style="line-height:1.8;"></ul></div>
+      <div class="panel" id="panel-brief"><div class="toolbar"><span class="muted">תיק אסטרטגיה (Markdown)</span><button class="btn" id="exportBrief">הורד Strategy Brief</button></div><pre class="code language-markdown" style="max-height:340px;"><code id="briefMd"></code></pre></div>
+    </div>
+  </div>
+</div>
+<button class="mentor-btn" id="mentorBtn" aria-label="אלגו מנטור">אלגו<br>מנטור</button>
+<div class="mentor" id="mentor" role="dialog" aria-label="חלון שיחה - אלגו מנטור">
+  <div class="m-header"><div class="m-title">אלגו מנטור</div><button class="btn ghost" id="closeMentor" style="padding:6px 10px;">סגור</button></div>
+  <div class="m-box" id="chatBox"></div>
+  <div class="m-suggest"><button data-q="תעזור לי לנסח רעיון אסטרטגיה ל-NT8 על NQ?">נסח אסטרטגיה</button><button data-q="בדוק אם יש לי TP/SL, טריילינג ושעות.">בדוק חסרים</button><button data-q="שפר את הטקסט שלי כדי לקבל קוד נקי.">שפר טקסט</button></div>
+  <div class="m-input"><input id="mInput" placeholder="כתוב לי שאלה..."><button id="mSend">שלח</button></div>
+</div>
+<div id="toast" style="position:fixed;bottom:18px;right:18px;background:rgba(20,20,40,0.85);color:#fff;padding:10px 12px;border-radius:10px;border:1px solid rgba(139,92,246,0.45);display:none;">בוצע</div>
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const idea=$('#idea'), platform=$('#platform'), interval=$('#interval'), aic=$('#aic');
+  const out=$('#out'), sum=$('#sum'), tips=$('#tips'), copyBtn=$('#copyBtn'), dlBtn=$('#dlBtn');
+  const err=$('#err'), genBtn=$('#gen'), briefMd=$('#briefMd'), exportBrief=$('#exportBrief');
+  const profile=$('#profile'), symbol=$('#symbol'), direction=$('#direction'), tp=$('#tp'), sl=$('#sl'), atrm=$('#atrm'), maxtr=$('#maxtr'), start=$('#start'), end=$('#end');
+  const buildPrompt=$('#buildPrompt'), optPrompt=$('#optPrompt');
+  const toastEl=$('#toast');
+
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active'); document.querySelector('#panel-' + t.dataset.tab).classList.add('active');
+  }));
+
+  const T = { ema:"EMA Scalping: לונג מעל EMA21 + MFI>60; SL 55, TP 110; ATR Trail 1.5; חלון 16:30–18:00; מקס׳ 2 עסקאות.", bb:"Mean Reversion BB: שורט ב-BB Upper(20,2) + פתיל עליון >60%; SL 55, TP 110; MFI>75.", orb:"Opening Range: טווח 16:30–16:45; כניסה מעל/מתחת לטווח; SL 55, TP 110; לא אחרי 17:45.", gap:"Gap Fade: פער פתיחה >0.5% נגד כיוון אתמול; SL 60, TP 120; Volume>MA20.", div:"RSI Divergence: סטייה דובית לשורט/שורית ללונג; SL מאחורי שיא/שפל; TP=2*SL; 16:30–19:00.", zscore:"Range Z-Score: קנייה כש-Zscore< -2 מכירה כש> +2; SL/TP 50/100; בלי חדשות." };
+  document.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click',()=>{ idea.value=T[ch.dataset.tpl]||""; triggerGen(); toast("תבנית הוזנה"); }));
+
+  function buildIdea(){
+    const parts=[ `${direction.value} ב-${symbol.value||'NQ'} בטיימפריים ${interval.value}`, `ניהול: TP ${tp.value} טיקים, SL ${sl.value} טיקים, ATR Mult ${atrm.value}`, `חלון ${start.value}–${end.value}, מקס׳ ${maxtr.value} עסקאות ביום`, `פלטפורמה: ${platform.value}`, `שמור פרמטרים כ-Inputs + BreakEven + ATR Trail` ];
+    idea.value = parts.join(" | "); triggerGen(); toast("נבנה תיאור");
+  }
+  buildPrompt.addEventListener('click', buildIdea);
+
+  function optimizePrompt(){
+    const content = idea.value.trim(); if(!content){ toast("כתוב רעיון קודם"); return; }
+    const wrapper = `הפק קוד קומפילבילי מלא:
+JSON={"code":"<string>","summary":["..."],"tips":["..."]}
+NT8: Strategy + SetDefaults/Configure/OnBarUpdate + SL/TP; Pine: //@version=5 + strategy()+input()+strategy.entry/exit.
+הוסף הערות בעברית/אנגלית. תיאור: ${content}`;
+    idea.value = wrapper; triggerGen(); toast("Optimize Prompt הופעל");
+  }
+  optPrompt.addEventListener('click', optimizePrompt);
+
+  async function backendCall(req){
+    const res = await fetch('/api/generate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(req) });
+    if(!res.ok){ let txt = await res.text().catch(()=>'');
+      throw new Error('Backend error: ' + txt); }
+    return await res.json();
+  }
+
+  function buildBrief(){
+    const md = `# Strategy Brief – ${symbol.value || 'NQ'} (${platform.value})
+## תיאור
+${idea.value.trim()||'—'}
+## הגדרות
+- פרופיל: ${profile.value} | טיימפריים: ${interval.value}
+- TP/SL: ${tp.value}/${sl.value} | ATR Mult: ${atrm.value}
+- חלון: ${start.value}-${end.value} | MaxTrades: ${maxtr.value}
+## קוד (תקציר)
+\
+\
+${(out.textContent||'').slice(0,600)}
+`; briefMd.textContent = md; Prism.highlightElement(briefMd); return md;
+  }
+  function download(name, content){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type:'text/plain'})); a.download=name; a.click(); URL.revokeObjectURL(a.href); }
+
+  let busy=false, to=null;
+  function triggerGen(){ clearTimeout(to); to=setTimeout(generate,700); }
+  async function generate(){
+    if(busy) return; const text = idea.value.trim(); if(text.length<8) return;
+    busy=true; out.textContent='';
+    const req={ idea:text, platform:platform.value, interval:interval.value, use_ai_checks:aic.checked, user_id:uid(), timestamp:new Date().toISOString() };
+    try{ const data = await backendCall(req);
+      out.textContent = data.code || ''; Prism.highlightElement(out);
+      sum.innerHTML = (data.summary||[]).map(x=>`<li>${x}</li>`).join('');
+      tips.innerHTML = (data.tips||[]).map(x=>`<li>${x}</li>`).join('');
+      buildBrief(); toast("קוד נוצר"); } catch(e){ out.textContent=String(e); } finally{ busy=false; }
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', async()=>{ await navigator.clipboard.writeText(out.textContent||''); toast("הועתק ✔"); });
+  document.getElementById('dlBtn').addEventListener('click', ()=>{ const ext = platform.value.includes('Pine')?'pine':'cs'; download(`AlgoTrade_${Date.now()}.${ext}`, out.textContent||''); });
+  document.getElementById('exportBrief').addEventListener('click', ()=>{ const md=buildBrief(); download(`Strategy_Brief_${Date.now()}.md`, md); });
+
+  function uid(){ const k='as_uid'; let v=localStorage.getItem(k); if(!v){ v='u-'+Math.random().toString(36).slice(2); localStorage.setItem(k,v);} return v; }
+  function toast(t){ const el=$('#toast'); el.textContent=t||"בוצע"; el.style.display='block'; setTimeout(()=>el.style.display='none',1200); }
+
+  const mentorBtn=$('#mentorBtn'), mentor=$('#mentor'), closeMentor=$('#closeMentor');
+  const chatBox=$('#chatBox'), mInput=$('#mInput'), mSend=$('#mSend');
+  mentorBtn.addEventListener('click', ()=> mentor.classList.toggle('show'));
+  closeMentor.addEventListener('click', ()=> mentor.classList.remove('show'));
+  document.querySelectorAll('.m-suggest button').forEach(b=> b.addEventListener('click', ()=>{ mInput.value=b.dataset.q; sendMsg(); }));
+  function addMsg(text, who){ const div=document.createElement('div'); div.className='msg '+(who==='u'?'u':'a'); div.textContent=text; chatBox.appendChild(div); chatBox.scrollTop=chatBox.scrollHeight; }
+  function sendMsg(){ const txt=(mInput.value||'').trim(); if(!txt) return; addMsg(txt,'u'); mInput.value=''; setTimeout(()=>{ addMsg("אני כאן: נסח רעיון / בדיקות / שיפור. כרגע שיחה זו דמו UI.",'a'); }, 250); }
+  mSend.addEventListener('click', sendMsg);
+  mInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendMsg(); });
+
+})();</script>
+</body>
+</html>
