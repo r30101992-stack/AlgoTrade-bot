@@ -244,5 +244,79 @@ ${(out.textContent||'').slice(0,600)}
   mInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendMsg(); });
 
 })();</script>
+  <script>
+function stripFences(s='') {
+  // מנקה ```json / ```cs / ``` ... מהתשובה כדי להציג קוד נקי
+  return String(s).replace(/```(?:json|csharp|cs)?/gi,'').replace(/```/g,'').trim();
+}
+
+async function handleGenerateClick() {
+  // קריאת הערכים מהשדות שלך
+  const idea      = document.querySelector('#strategyText')?.value?.trim() || '';
+  const platform  = document.querySelector('#platformSelect')?.value || 'NinjaTrader 8 (C#)';
+  const interval  = document.querySelector('#timeframeSelect')?.value || 'דק3';
+  const useChecks = !!document.querySelector('#aiChecksToggle')?.checked;
+
+  // אלמנטים לתצוגה
+  const errorEl = document.getElementById('errorOut');
+  const codeEl  = document.getElementById('codeOut');
+  const sumEl   = document.getElementById('summaryOut');
+  const tipsEl  = document.getElementById('tipsOut');
+
+  // ניקוי לפני תחילת הבקשה
+  errorEl.textContent = 'מייצר...';
+  codeEl.value = '';
+  sumEl.innerHTML = '';
+  tipsEl.innerHTML = '';
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        idea,
+        platform,
+        interval,
+        use_ai_checks: useChecks
+      })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      errorEl.textContent = data?.error || 'שגיאה מהשרת';
+      return;
+    }
+
+    // מציג את התוצאות
+    errorEl.textContent = '';
+    codeEl.value = stripFences(data.code || '');
+
+    const sum  = (data.summary || []).map(s => `<li>${s}</li>`).join('');
+    const tips = (data.tips    || []).map(t => `<li>${t}</li>`).join('');
+
+    sumEl.innerHTML  = sum  || '<li>—</li>';
+    tipsEl.innerHTML = tips || '<li>—</li>';
+
+  } catch (err) {
+    errorEl.textContent = err?.message || 'שגיאה בצד הלקוח';
+  }
+}
+
+// חיבור הכפתור אחרי טעינת הדף
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('generateBtn');
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      handleGenerateClick();
+    });
+  } else {
+    console.warn('לא נמצא כפתור עם id="generateBtn"');
+  }
+});
+</script>
+
 </body>
 </html>
